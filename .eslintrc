@@ -1,0 +1,105 @@
+{
+  "root": true,
+  "parser": "esprima",
+  "env": {
+    "jasmine": true,
+    "node": true,
+    "es6": true,
+    "commonjs": true
+  },
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:wdio/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "prettier",
+    "import"
+  ],
+  "rules": {
+    "curly": [
+      "error",
+      "all"
+    ],
+    "default-case": "error",
+    "eqeqeq": [
+      "error",
+      "smart"
+    ],
+    "for-direction": "error",
+    "no-alert": "error",
+    "no-bitwise": "error",
+    "no-console": "off",
+    "no-eval": "error",
+    "no-invalid-this": "warn",
+    "no-loop-func": "error",
+    "no-multi-str": "error",
+    "no-sequences": "error",
+    "no-undefined": "error",
+    "require-atomic-updates": "off",
+    "indent": [
+      "error",
+      2
+    ],
+    "max-len": [
+      0,
+      {
+        "tabWidth": 2
+      }
+    ],
+    "no-self-assign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "no-redeclare": "error",
+    "no-lonely-if": "error",
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "new-parens": "error",
+    "block-spacing": "error",
+    "no-const-assign": "error",
+    "no-this-before-super": "warn",
+    "no-undef": "error",
+    "no-unused-vars": "warn",
+    "constructor-super": "warn",
+    "valid-typeof": "warn",
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-extra-semi": "error",
+    "no-constant-condition": "error",
+    "no-unreachable": "error",
+    "no-unneeded-ternary": "error",
+    "no-dupe-keys": "error",
+    "no-dupe-class-members": "error",
+    "import/no-unresolved": 2,
+    "import/order": 2,
+    "import/no-extraneous-dependencies": 2,
+    "import/extensions": 2
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [
+        [
+          "~",
+          "./src"
+        ]
+      ]
+    }
+  }
+}

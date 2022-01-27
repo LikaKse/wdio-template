@@ -1,0 +1,21 @@
+{
+  "sourceType": "module",
+  "plugins": [
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-transform-regenerator",
+    "@babel/plugin-transform-runtime",
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "~": "./src"
+        }
+      }
+    ]
+  ],
+  "presets": [
+    "@babel/preset-env"
+  ]
+}

@@ -61,8 +61,16 @@ exports.config = {
       'acceptInsecureCerts': true,
       'outputDir': './output',
       'goog:chromeOptions': {
-        //args: ['--start-maximized'],
-        args: ["window-size=1024,768", "--headless", "--no-sandbox"],
+        // https://stackoverflow.com/a/52340526
+        args: ["window-size=1920,1080",
+               "--headless",
+               "--no-sandbox",
+               "--disable-gpu",
+               "--disable-extensions",
+               "--dns-prefetch-disable",
+               "--disable-infobars",
+               "--disable-browser-side-navigation"
+              ],
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.

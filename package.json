@@ -5,6 +5,8 @@
   "author": "lika",
   "license": "lika",
   "scripts": {
+    "postinstall": "patch-package",
+    "clean": "rm -rf output/* allure-report allure-results",
     "lint": "eslint --quiet --fix --ext .js .",
     "format": "prettier --write ./src/**/*.{js,json}",
     "test": "wdio run ./wdio.conf.js"
@@ -38,10 +40,10 @@
     "eslint-plugin-wdio": "^7.4.2",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
-    "wdio-chromedriver-service": "^7.0.0"
-  },
-  "dependencies": {
+    "wdio-chromedriver-service": "^7.0.0",
     "allure-commandline": "^2.13.8",
+    "patch-package": "^6.4.7",
     "wdio-video-reporter": "^3.2.0"
-  }
+  },
+  "dependencies": {}
 }

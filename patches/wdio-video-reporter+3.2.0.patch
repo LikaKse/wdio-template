@@ -1,0 +1,77 @@
+diff --git a/node_modules/wdio-video-reporter/dist/wdio-video-reporter.js b/node_modules/wdio-video-reporter/dist/wdio-video-reporter.js
+index 2fa5de9..ec1c05f 100644
+--- a/node_modules/wdio-video-reporter/dist/wdio-video-reporter.js
++++ b/node_modules/wdio-video-reporter/dist/wdio-video-reporter.js
+@@ -386,13 +386,14 @@ var cucumberFramework = {
+ 
+       if (hasFailedTests || (allTestsPassed && config.saveAllVideos)) {
+         const filePath = path.resolve(this.recordingPath, this.frameNr.toString().padStart(4, '0') + '.png');
+-        try {
+-          browser.saveScreenshot(filePath);
+-          helpers.debugLog('- Screenshot!!\n');
+-        } catch (e) {
+-          fs.writeFile(filePath, notAvailableImage, 'base64');
+-          helpers.debugLog('- Screenshot not available...\n');
+-        }
++        this.screenshotPromises.push(
++          browser.saveScreenshot(filePath).then(() => {
++              helpers.debugLog('- Screenshot onTestEnd!!\n');
++            }).catch(e => {
++              fs.writeFile(filePath, notAvailableImage, 'base64');
++              helpers.debugLog(`- Screenshot not available...\nGot exception "${e.message}"\n${e.stack}\n`);
++          })
++        );
+ 
+         helpers.generateVideo.call(this);
+       }
+@@ -527,16 +528,14 @@ class Video extends WdioReporter {
+       fs.mkdirsSync(this.recordingPath);
+     }
+ 
+-    try {
+-      this.screenshotPromises.push(
+-        browser.saveScreenshot(filePath).then(() => {
+-          helpers.debugLog('- Screenshot!!\n');
+-        })
+-      );
+-    } catch (e) {
+-      fs.writeFile(filePath, notAvailableImage, 'base64');
+-      helpers.debugLog('- Screenshot not available...\n');
+-    }
++    this.screenshotPromises.push(
++      browser.saveScreenshot(filePath).then(() => {
++          helpers.debugLog('- Screenshot onTestEnd!!\n');
++        }).catch(e => {
++          fs.writeFile(filePath, notAvailableImage, 'base64');
++          helpers.debugLog(`- Screenshot not available...\nGot exception "${e.message}"\n${e.stack}\n`);
++      })
++    );
+     this.frameNr++;
+   }
+ 
+@@ -587,17 +586,15 @@ class Video extends WdioReporter {
+ 
+     if (test.state === 'failed' || (test.state === 'passed' && config.saveAllVideos)) {
+       const filePath = path.resolve(this.recordingPath, this.frameNr.toString().padStart(4, '0') + '.png');
+-      try {
+-        this.screenshotPromises.push(
+-          browser.saveScreenshot(filePath).then(() => {
+-            helpers.debugLog('- Screenshot!!\n');
+-          })
+-        );
+-      } catch (e) {
+-        fs.writeFile(filePath, notAvailableImage, 'base64');
+-        helpers.debugLog('- Screenshot not available...\n');
+-      }
+ 
++      this.screenshotPromises.push(
++        browser.saveScreenshot(filePath).then(() => {
++            helpers.debugLog('- Screenshot onTestEnd!!\n');
++          }).catch(e => {
++            fs.writeFile(filePath, notAvailableImage, 'base64');
++            helpers.debugLog(`- Screenshot not available...\nGot exception "${e.message}"\n${e.stack}\n`);
++        })
++      );
+       helpers.generateVideo.call(this);
+     }
+   }

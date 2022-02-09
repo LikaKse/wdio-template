@@ -1,6 +1,15 @@
 FROM node:15.14.0-buster
 
-RUN  apt-get update && apt-get upgrade -y && apt-get install -y default-jre
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo 'APT::Install-Suggests "false";\n'\
+         'APT::Install-Recommends "false";\n' > /etc/apt/apt.conf.d/02-no-recommends
+RUN apt-get update &&\
+    apt-get upgrade -y &&\
+    apt-get install -y default-jre &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /e2e /cache && chown node:node /e2e /cache
 
@@ -18,6 +27,7 @@ COPY --chown=node package.json yarn.lock /cache/
 COPY --chown=node patches /cache/patches
 
 RUN cd /cache &&\
-    yarn.wrp install --frozen-lockfile
+    yarn.wrp install --frozen-lockfile &&\
+    rm -rf /home/node/.cache /tmp/* 2>/dev/null ||:
 
 ENTRYPOINT [ "/usr/local/bin/yarn", "test"]

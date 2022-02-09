@@ -13,11 +13,11 @@ RUN apt-get update &&\
 
 RUN mkdir /e2e /cache && chown node:node /e2e /cache
 
-COPY yarn.sh /usr/local/bin/
+COPY yarn.sh entrypoint.sh /usr/local/bin/
 RUN cd /usr/local/bin &&\
     mv yarn yarn.wrp &&\
     mv yarn.sh yarn &&\
-    chmod +x yarn
+    chmod +x yarn entrypoint.sh
 
 USER node
 WORKDIR /e2e
@@ -30,4 +30,4 @@ RUN cd /cache &&\
     yarn.wrp install --frozen-lockfile &&\
     rm -rf /home/node/.cache /tmp/* 2>/dev/null ||:
 
-ENTRYPOINT [ "/usr/local/bin/yarn", "test"]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh"]

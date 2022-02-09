@@ -3,7 +3,7 @@ const video = require('wdio-video-reporter');
 
 exports.config = {
   protocol: 'http',
-  hostname: '172.17.0.2',
+  hostname: 'e2e-selenium',
   port: 4444,
   path: '/wd/hub',
   //

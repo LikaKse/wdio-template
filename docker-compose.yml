@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  e2e-selenium:
+    image: selenium/standalone-chrome:96.0
+    shm_size: '2gb'
+    container_name: e2e-selenium
+  e2e-node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - e2e-selenium
+    container_name: e2e-node
+    volumes:
+      - .:/e2e
+    ports:
+      - "8888:8888"
+    environment:
+      - ALLURE_PORT=8888

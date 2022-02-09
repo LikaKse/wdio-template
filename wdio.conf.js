@@ -3,17 +3,9 @@ const video = require('wdio-video-reporter');
 
 exports.config = {
   protocol: 'http',
-  hostname: 'localhost',
+  hostname: '172.17.0.2',
   port: 4444,
   path: '/wd/hub',
-  //
-  // ====================
-  // Runner Configuration
-  // ====================  
-  //
-  // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
-  // on a remote machine).
-  runner: 'local',
   //
   // ==================
   // Specify Test Files
@@ -62,14 +54,9 @@ exports.config = {
       'outputDir': './output',
       'goog:chromeOptions': {
         // https://stackoverflow.com/a/52340526
-        args: ["window-size=1920,1080",
+        args: ["window-size=2160,1440",
                "--headless",
-               "--no-sandbox",
-               "--disable-gpu",
-               "--disable-extensions",
-               "--dns-prefetch-disable",
-               "--disable-infobars",
-               "--disable-browser-side-navigation"
+               "--no-sandbox"
               ],
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
@@ -125,11 +112,7 @@ exports.config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: [['chromedriver', {
-    logFileName: 'wdio-chromedriver.log', // default
-    outputDir: 'output', // overwrites the config.outputDir
-    args: ['--verbose']
-  }]],
+  services: [],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -165,7 +148,6 @@ exports.config = {
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: true,
         addConsoleLogs: true,
-        disableMochaHooks: true,
       },
     ],
   ],

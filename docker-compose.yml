@@ -17,3 +17,4 @@ services:
       - "8888:8888"
     environment:
       - ALLURE_PORT=8888
+      - TEST_SPEC=$TEST_SPEC

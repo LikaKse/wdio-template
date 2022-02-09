@@ -1,0 +1,23 @@
+FROM node:15.14.0-buster
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo 'APT::Install-Suggests "false";\n'\
+         'APT::Install-Recommends "false";\n' > /etc/apt/apt.conf.d/02-no-recommends
+RUN apt-get update &&\
+    apt-get upgrade -y &&\
+    apt-get install -y default-jre &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /e2e && chown node:node /e2e
+
+COPY entrypoint.sh /usr/local/bin/
+RUN cd /usr/local/bin &&\
+    chmod +x entrypoint.sh
+
+USER node
+WORKDIR /e2e
+VOLUME [ "/e2e" ]
+
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh"]

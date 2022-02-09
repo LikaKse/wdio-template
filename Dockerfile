@@ -1,13 +1,23 @@
 FROM node:15.14.0-buster
 
-ARG VERSION=96.0.4664.110-1
-ENV URL=https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${VERSION}_amd64.deb
+RUN  apt-get update && apt-get upgrade -y && apt-get install -y default-jre
 
-RUN  apt-get update && apt-get upgrade -y && apt-get install -y openjdk-11-jdk git gnupg2 wget  
+RUN mkdir /e2e /cache && chown node:node /e2e /cache
 
-RUN wget -q -O /tmp/google-chrome-stable.deb ${URL} &&\
-    apt-get install -y /tmp/google-chrome-stable.deb
+COPY yarn.sh /usr/local/bin/
+RUN cd /usr/local/bin &&\
+    mv yarn yarn.wrp &&\
+    mv yarn.sh yarn &&\
+    chmod +x yarn
 
-RUN mkdir /e2e && chown node /e2e
 USER node
 WORKDIR /e2e
+VOLUME [ "/e2e" ]
+
+COPY --chown=node package.json yarn.lock /cache/
+COPY --chown=node patches /cache/patches
+
+RUN cd /cache &&\
+    yarn.wrp install --frozen-lockfile
+
+ENTRYPOINT [ "/usr/local/bin/yarn", "test"]
